@@ -1,24 +1,27 @@
-// generazione del campo
-const WIDTH = 400;
-const HEIGHT = 550;
+// classi 
+// campo
+class GameField {
+  constructor() {
+    this.width = 16;
+    this.height = 22;
+    this.root = document.getElementById("field-container");
+  }
 
-const generateField = () => {
-  const container = document.getElementById("field-container");
+  generateField() {
+    for (let i = 0; i < this.width; i++) {
+      for (let j = 0; j < this.height; j++) {
+        const pixel = document.createElement('div');
+        pixel.setAttribute('id', `${i}-${j}`);
+        pixel.setAttribute('class', 'root-pixel');
 
-  for (let i = 0; i < WIDTH / 25; i++) {
-    for (let j = 0; j < HEIGHT / 25; j++) {
-      const pixel = document.createElement('div');
-      pixel.setAttribute("id", i.toString() + " " + j.toString());
-      pixel.setAttribute("class", "field-pixel");
-
-      container.appendChild(pixel);
+        this.root.appendChild(pixel);
+      }
     }
-
-    //container.appendChild(document.createElement("br"));
   }
 }
 
+
 window.addEventListener("load", () => {
-  console.log("pagina caricata");
-  generateField();
+  const field = new GameField();
+  field.generateField();
 });

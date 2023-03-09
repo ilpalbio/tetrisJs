@@ -1,19 +1,29 @@
+@import "./pieces.css";
+
 h1 {
   color: blue;
   text-align: center;
 }
 
 #field-container {
-  background-color: rgb(129, 97, 97);
-  width: 400px;
-  height: 550px;
-  margin: auto;
+  background-color: white;
+  width: 432px;
+  height: 594px;
 
+  margin: auto;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
 }
 
-.field-pixel {
-  background-color: black;
+.root-pixel {
   width: 25px;
   height: 25px;
+
+  background-color: white;
+  border-color: black;
+  border: 1px;
+  border-style: solid;
+
   display: inline-block;
 }
