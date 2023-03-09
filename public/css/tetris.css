@@ -1,0 +1,19 @@
+h1 {
+  color: blue;
+  text-align: center;
+}
+
+#field-container {
+  background-color: rgb(129, 97, 97);
+  width: 400px;
+  height: 550px;
+  margin: auto;
+
+}
+
+.field-pixel {
+  background-color: black;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
