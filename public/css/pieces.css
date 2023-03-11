@@ -1,0 +1,16 @@
+.piece {
+  width: 25px;
+  height: 25px;
+
+  background-color: black;
+
+  position: absolute;
+
+  z-index: 1;
+}
+
+.sigle-block-piece {
+  /* background-color: aqua; */
+  width: 25px;
+  height: 25px;
+}

@@ -2,10 +2,14 @@
 // campo
 class GameField {
   constructor() {
-    this.width = 16;
-    this.height = 22;
     this.root = document.getElementById("field-container");
-    this.nextPiece = document.getElementById("next-piece-container");
+    this.nextPieceContainer = document.getElementById("next-piece-container");
+
+    this.startLeft = 175;
+    this.startTop = 1;
+
+    // array contenente nel indice 0 il pezzo che sta scendendo e nell 1 il prossimo
+    this.pieceArray = new Array(2);
   }
 
   // metodo per creare un pezzo random
@@ -40,26 +44,60 @@ class GameField {
     return piece;
   }
 
-  // metodo per aggiungere un pezzo al campo
-  addPiece() {
-    const piece = SinglePiece.createPiece();
-    // aggiunta del pezzo con cordinate cetrali al campo
-    // piece.style.
-    this.root.appendChild();
+  // metodo per creare un nuovo prossimo pezzo
+  generateNextPiece() {
+    const nextPiece = new SinglePiece();
+    this.pieceArray[1] = nextPiece ;
+
+    // aggiunta del pezzo al contenitore
+    this.nextPieceContainer.appendChild(nextPiece);
   }
+
+  // metodo per far cominciare il gioco
+  startGame() {
+    // generazione del primo pezzo
+    const firstPiece = new SinglePiece();
+    firstPiece.addPiece(this.root);
+
+    this.pieceArray[0] = firstPiece;
+
+    // generazione del prossimo pezzo
+    this.generateNextPiece();
+
+    console.log(this.pieceArray);
+  }
+
 }
 
 // classe per pezzo singolo
 class SinglePiece {
-  static createPiece() {
-    const piece = document.createElement("div");
-    piece.setAttribute("class", "sigle-block-piece");
+  constructor() {
+    this.x = 175;
+    this.y = 1;
 
-    return piece;
+    this.piece = document.createElement("div");
+    this.piece.setAttribute("class", "piece sigle-block-piece");
+
+    this.piece.style.left = this.x.toString() + "px";
+    this.piece.style.top = this.y.toString() + "px";
+  }
+
+  addPiece(root) {
+    root.appendChild(this.piece);
+  }
+
+  movePieceDown() {
+    this.y += 2;
   }
 }
 
 
 window.addEventListener("load", () => {
   const field = new GameField();
+  
+  field.startGame();
+  // field.addPiece();
+
+  // inizio della discesa del pezzo
+  //window.setInterval(, 3000);
 });
