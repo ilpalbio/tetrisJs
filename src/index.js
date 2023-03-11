@@ -8,31 +8,6 @@ class GameField {
     this.nextPiece = document.getElementById("next-piece-container");
   }
 
-  generateField() {
-    for (let i = 0; i < this.width; i++) {
-      for (let j = 0; j < this.height; j++) {
-        const pixel = document.createElement('div');
-        pixel.setAttribute('id', `${i}-${j}`);
-        pixel.setAttribute('class', 'root-pixel');
-
-        this.root.appendChild(pixel);
-      }
-    }
-  }
-
-  // metodo per generare il display per mostrare il prossimo pezzo
-  generateNextMoveField() {
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 5; j++) {
-        const pixel = document.createElement('div');
-        pixel.setAttribute('id', `${i}-${j}`);
-        pixel.setAttribute('class', 'next-piece-container-pixel');
-
-        this.nextPiece.appendChild(pixel);
-      }
-    }
-  }
-
   // metodo per creare un pezzo random
   // 0: lungo azzurro
   // 1: l sinistra blue
@@ -65,16 +40,26 @@ class GameField {
     return piece;
   }
 
-  // metodo per aggiungere un pezzo
+  // metodo per aggiungere un pezzo al campo
   addPiece() {
-    const piece = this.createNextPiece();
-    
+    const piece = SinglePiece.createPiece();
+    // aggiunta del pezzo con cordinate cetrali al campo
+    // piece.style.
+    this.root.appendChild();
+  }
+}
+
+// classe per pezzo singolo
+class SinglePiece {
+  static createPiece() {
+    const piece = document.createElement("div");
+    piece.setAttribute("class", "sigle-block-piece");
+
+    return piece;
   }
 }
 
 
 window.addEventListener("load", () => {
   const field = new GameField();
-  field.generateField();
-  field.generateNextMoveField();
 });

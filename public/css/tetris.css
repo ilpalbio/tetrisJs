@@ -7,45 +7,22 @@ h1 {
 
 #field-container {
   background-color: white;
-  width: 432px;
-  height: 594px;
+  width: 400px;
+  height: 550px;
 
   margin: auto;
-  border: 1px;
+
   border-color: black;
-  border-style: solid;
-}
-
-.root-pixel {
-  width: 25px;
-  height: 25px;
-
-  background-color: white;
-  border-color: black;
-  border: 1px;
-  border-style: solid;
-
-  display: inline-block;
+  border-style: solid; 
+  border-top: 1px;
 }
 
 #next-piece-container {
   background-color: white;
-  width: 135px;
-  height: 135px;
+  width: 125px;
+  height: 125px;
 
   border: 1px;
   border-color: black;
   border-style: solid;
-}
-
-.next-piece-container-pixel {
-  width: 25px;
-  height: 25px;
-
-  background-color: white;
-  border: 1px;
-  border-color: black;
-  border-style: solid;
-
-  display: inline-block;
 }
