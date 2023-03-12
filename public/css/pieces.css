@@ -9,8 +9,12 @@
   z-index: 1;
 }
 
-.sigle-block-piece {
+signle-block-piece {
   /* background-color: aqua; */
   width: 25px;
   height: 25px;
+
+  background-color: black;
+
+  position: absolute;
 }
