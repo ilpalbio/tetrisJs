@@ -11,7 +11,7 @@ class GameField {
     // array contenente nel indice 0 il pezzo che sta scendendo e nell 1 il prossimo
     this.pieceArray = new Array(2);
     this.fallSpeed = 25;
-    this.movementRange = 11;
+    this.movementRange = 25;
   }
 
   // metodo per definire tutti i block custom
@@ -55,8 +55,6 @@ class GameField {
       console.log("pezzo arrivato al fondo");
       return;
     }
-    // aggiunta comandi
-    this.addCommand(currentPiece);
 
     this.movePieceDown(currentPiece);
   }
@@ -115,39 +113,46 @@ class GameField {
   }
 
   // metodo per aggiungere i comandi
-  addCommand(piece) {
-    window.addEventListener('keydown', (ev) => {
-      // console.log(ev);
+  addCommand() {
+    window.addEventListener('keyup', (ev) => {
+      if (ev.repeat) return;
       switch(ev.key) {
         case "a":
-          this.moveLeft(piece)
+          this.moveLeft()
           break;
 
         case "d":
-          this.moveRight(piece);
+          this.moveRight();
           break;
 
         case "s":
-          this.moveDown(piece);
+          this.moveDown();
           break;
       }
     })
   }
 
   // metodi per i comandi
-  moveLeft(piece) {
+  moveLeft() {
     console.log("movimento a sinistra");
+
+    const piece = this.pieceArray[0];
     piece.x -= this.movementRange;
     this.refreshPiece(piece);
+    console.log(piece.x);
   }
 
-  moveRight(piece) {
+  moveRight() {
     console.log("movimento a destra");
+
+    const piece = this.pieceArray[0];
     piece.x += this.movementRange;
     this.refreshPiece(piece);
+
+    console.log(piece.x);
   }
 
-  moveDown(piece) {
+  moveDown() {
     console.log("pezzo mosso verso il basso");
   }
 
@@ -170,6 +175,9 @@ window.addEventListener("load", () => {
   field.defineCustomBlocks();
 
   field.startGame();
+
+  // comandi
+  field.addCommand();
 
   // inizio della discesa del pezzo
   window.setInterval(function() {field.continueGame()}, 1000);
