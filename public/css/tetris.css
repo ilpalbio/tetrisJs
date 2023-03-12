@@ -5,6 +5,10 @@ h1 {
   text-align: center;
 }
 
+#root {
+  /* display: flex; */
+}
+
 #field-container {
   width: 400px;
   height: 550px;
@@ -41,4 +45,9 @@ h1 {
   position: relative;
   left: 48%;
   top: 100px;
+}
+
+#commands-title {
+  position: relative;
+  
 }

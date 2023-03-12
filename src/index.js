@@ -11,6 +11,10 @@ class GameField {
     // this.startLeft = 175;
     // this.startTop = 1;
 
+    // dimensioni
+    this.rootWidth = +getComputedStyle(this.root).width.replace('px', '');
+    this.rootHeight = +getComputedStyle(this.root).height.replace('px', '');
+
     // array contenente nel indice 0 il pezzo che sta scendendo e nell 1 il prossimo
     this.pieceArray = new Array(2);
     this.fallSpeed = 25;
@@ -43,19 +47,23 @@ class GameField {
     // generazione del primo pezzo
     const firstPiece = document.createElement('signle-block-piece');
     this.addPiece(firstPiece);
-    this.setInRoot(firstPiece);
+    // this.setInRoot(firstPiece);
 
     // generazione del prossimo pezzo
     const nextPiece = document.createElement('signle-block-piece');
     this.addNextPiece(nextPiece);
-    this.setInNext(nextPiece);
+    // this.setInNext(nextPiece);
   }
 
   // metodo per il continuo del gioco
   continueGame() {
     const currentPiece = this.pieceArray[0];
+
+    // controllo sulla posizione verticale del blocco
     if (this.isAtEnd(currentPiece)) {
-      console.log("pezzo arrivato al fondo");
+      console.log("freeze del blocco");
+      this.freeezePiece(currentPiece);
+      this.createNewPiece();
       return;
     }
 
@@ -66,12 +74,19 @@ class GameField {
   addPiece(piece) {
     this.pieceArray[0] = piece;
     this.root.appendChild(piece);
+
+    this.setInRoot(piece);
   }
 
   // metodo per aggiungere il pezzo al next container
   addNextPiece(nextPiece) {
     this.pieceArray[1] = nextPiece;
+    //console.log(this.nextPieceContainer.firstChild);
+    // rimozione del vecchio figli
+    //this.nextPieceContainer.removeChild(this.nextPieceContainer.firstChild)
     this.nextPieceContainer.appendChild(nextPiece);
+
+    this.setInNext(nextPiece);
   }
 
   // metodo per settare le coordinate giuste nel root
@@ -105,23 +120,20 @@ class GameField {
 
   // metodo per controllare se il pezzo è arrivato al fondo
   isAtEnd(piece) {
-    const rootStyle = getComputedStyle(this.root)
-    const rootHeight = +rootStyle.height.replace('px', '');
     // console.log(rootHeight);
     // console.log(piece.height);
     const pieceHeight = +getComputedStyle(piece).height.replace('px','');
-    if (piece.y + pieceHeight >= rootHeight) return true;
+    if (piece.y + pieceHeight >= this.rootHeight) return true;
 
     return false;
   }
 
   // metodo per capire se è su un lato del container
   isAtEdge(piece) {
-    const rootWidth = +getComputedStyle(this.root).width.replace('px', '');
     const pieceWidth = +getComputedStyle(piece).width.replace('px', '');
 
     if (piece.x <= 0) return GameField.leftEnd;
-    else if (piece.x + pieceWidth >= rootWidth) return GameField.rightEnd;
+    else if (piece.x + pieceWidth >= this.rootWidth) return GameField.rightEnd;
 
     return 0;
   }
@@ -148,7 +160,7 @@ class GameField {
 
   // metodi per i comandi
   moveLeft() {
-    console.log("movimento a sinistra");
+    // console.log("movimento a sinistra");
 
     const piece = this.pieceArray[0];
 
@@ -156,12 +168,12 @@ class GameField {
 
     piece.x -= this.movementRange;
     this.refreshPiece(piece);
-    console.log(piece.x);
+    // console.log(piece.x);
   }
 
   moveRight() {
-    console.log("movimento a destra");
-    console.log(GameField.rightEnd);
+    //console.log("movimento a destra");
+    //console.log(GameField.rightEnd);
 
     const piece = this.pieceArray[0];
 
@@ -170,11 +182,38 @@ class GameField {
     piece.x += this.movementRange;
     this.refreshPiece(piece);
 
-    console.log(piece.x);
+    // console.log(piece.x);
   }
 
   moveDown() {
     console.log("pezzo mosso verso il basso");
+  }
+
+  // meotodo per controllare se il pezzo ha toccato qualcosa
+  hasReachEnd(piece) {
+    // tocco del fondo del campo
+    if (this.isAtEdge(piece)) return true;
+
+    // il blocco è sopra un altro
+    //else if ()
+
+    return false;
+  }
+
+  // metodo per frizzare il blocco
+  freeezePiece() {
+
+  }
+
+  // metodo per creare un nuovo blocco
+  createNewPiece() {
+    // estrazione del blocco dal next container
+    const piece = this.pieceArray[1];
+    this.addPiece(piece);
+
+    // creazione di un nuovo elemento next
+    const newNextPiece = document.createElement('single-block-piece');
+    this.addNextPiece(newNextPiece);
   }
 
 }
