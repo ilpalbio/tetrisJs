@@ -1,6 +1,9 @@
 // classi 
 // campo
 class GameField {
+  static leftEnd = 1;
+  static rightEnd = 2;
+
   constructor() {
     this.root = document.getElementById("field-container");
     this.nextPieceContainer = document.getElementById("next-piece-container");
@@ -112,6 +115,17 @@ class GameField {
     return false;
   }
 
+  // metodo per capire se è su un lato del container
+  isAtEdge(piece) {
+    const rootWidth = +getComputedStyle(this.root).width.replace('px', '');
+    const pieceWidth = +getComputedStyle(piece).width.replace('px', '');
+
+    if (piece.x <= 0) return GameField.leftEnd;
+    else if (piece.x + pieceWidth >= rootWidth) return GameField.rightEnd;
+
+    return 0;
+  }
+
   // metodo per aggiungere i comandi
   addCommand() {
     window.addEventListener('keyup', (ev) => {
@@ -137,6 +151,9 @@ class GameField {
     console.log("movimento a sinistra");
 
     const piece = this.pieceArray[0];
+
+    if (this.isAtEdge(piece) === GameField.leftEnd) return;
+
     piece.x -= this.movementRange;
     this.refreshPiece(piece);
     console.log(piece.x);
@@ -144,8 +161,12 @@ class GameField {
 
   moveRight() {
     console.log("movimento a destra");
+    console.log(GameField.rightEnd);
 
     const piece = this.pieceArray[0];
+
+    if (this.isAtEdge(piece) === GameField.rightEnd) return;
+
     piece.x += this.movementRange;
     this.refreshPiece(piece);
 
