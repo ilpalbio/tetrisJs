@@ -9,7 +9,7 @@
   z-index: 1;
 }
 
-signle-block-piece {
+single-block-piece {
   /* background-color: aqua; */
   width: 25px;
   height: 25px;
@@ -18,3 +18,29 @@ signle-block-piece {
 
   position: absolute;
 }
+
+long-piece {
+  width: 25px;
+  height: 100px;
+
+  background-color: rgb(84, 199, 235);
+
+  position: absolute;
+}
+
+square-piece {
+  width: 50px;
+  height: 50px;
+
+  background-color: rgb(238, 238, 99);
+
+  position: absolute;
+  display: inline-block;
+}
+
+/* .pixel {
+  width: 25px;
+  height: 25px;
+
+  background-color: rgb(82, 156, 134);
+} */

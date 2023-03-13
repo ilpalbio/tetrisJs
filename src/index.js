@@ -3,6 +3,7 @@
 class GameField {
   static leftEnd = 1;
   static rightEnd = 2;
+  static maxPiece = 1;
 
   constructor() {
     this.root = document.getElementById("field-container");
@@ -26,32 +27,36 @@ class GameField {
     // const customElements = new CustomElementRegistry();
 
     customElements.define(
-      'single-block-piece',
+      SingleBlock.name,
       SingleBlock,
       {extends: "div"}
       );
-  }
 
-  // metodo per creare un pezzo random
-  // 0: lungo azzurro
-  // 1: l sinistra blue
-  // 2: l destra arancione
-  // 3: quadrato giallo
-  // 4: z verde
-  // 5: t viola
-  // 6: z contraria rossa
+      customElements.define(
+        LongPiece.name,
+        LongPiece,
+        {extends: "div"}
+      );
+
+      customElements.define(
+        SquarePiece.name,
+        SquarePiece,
+        {extends: "div"},
+      );
+  }
 
   // metodo per far cominciare il gioco
   startGame() {
     //console.log(getComputedStyle(this.root).top.replace("px", ""));
     // generazione del primo pezzo
-    const firstPiece = document.createElement('signle-block-piece');
-    this.addPiece(firstPiece);
+    // console.log(this.createRandomPiece());
+    // const firstPiece = document.createElement(LongPiece.name);
+    this.addPiece(this.createRandomPiece());
     // this.setInRoot(firstPiece);
 
     // generazione del prossimo pezzo
-    const nextPiece = document.createElement('signle-block-piece');
-    this.addNextPiece(nextPiece);
+    // const nextPiece = document.createElement(SquarePiece.name);
+    this.addNextPiece(this.createRandomPiece());
     // this.setInNext(nextPiece);
   }
 
@@ -70,6 +75,27 @@ class GameField {
     }
 
     this.movePieceDown(currentPiece);
+  }
+
+  // metodo per creare un pezzo random
+  // 0: lungo azzurro
+  // 1: quadrato giallo
+  // 2: l sinistra blue
+  // 3: l destra arancione
+  // 4: z verde
+  // 5: t viola
+  // 6: z contraria rossa
+  createRandomPiece() {
+    const randomNumber = Math.round(Math.random() * GameField.maxPiece);
+    // console.log(randomNumber);
+    switch(randomNumber) {
+      case 0:
+        return document.createElement(LongPiece.name);
+        break;
+      case 1:
+        return document.createElement(SquarePiece.name);
+        break;
+    }
   }
 
   // metodo per aggiungere un pezzo al root
@@ -215,19 +241,69 @@ class GameField {
     this.addPiece(piece);
 
     // creazione di un nuovo elemento next
-    const newNextPiece = document.createElement('signle-block-piece');
-    this.addNextPiece(newNextPiece);
+    // const newNextPiece = document.createElement(SingleBlock.name);
+    this.addNextPiece(this.createRandomPiece());
   }
 
 }
 
-// classe per pezzo singolo
-class SingleBlock extends HTMLElement {
+// pezzi custom
+class Piece extends HTMLElement {
   constructor() {
     super();
 
     this.x = 0;
     this.y = 0;
+  }
+}
+
+class SingleBlock extends Piece {
+  static name = 'single-block-piece';
+  constructor() {
+    super();
+  }
+}
+
+class LongPiece extends Piece {
+  static name = "long-piece";
+  constructor() {
+    super();
+
+    this.width = 1;
+    this.height = 4;
+  }
+
+  // metodo chiamato quando l elemento viene aggiunto al DOM
+  connectedCallback() {
+    if (this.isConnected) { // connesso
+      // aggiunta dei figli al div
+      for (let i = 0; i < this.height; i++) {
+        const pixel = document.createElement("div");
+        // pixel.setAttribute("class", "pixel");
+
+        this.appendChild(pixel);
+      }
+    }
+  }
+}
+
+class SquarePiece extends Piece {
+  static name = "square-piece";
+  constructor() {
+    super();
+
+    this.width = 2;
+    this.height = 2;
+  }
+
+  connectedCallback() {
+    if (this.isConnected) {
+      for (let i = 0; i < this.height; i++) {
+        for (let j = 0; j < this.width; j++) {
+          this.appendChild(document.createElement("div"));
+        }
+      }
+    }
   }
 }
 
