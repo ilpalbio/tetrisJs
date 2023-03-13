@@ -59,9 +59,11 @@ class GameField {
   continueGame() {
     const currentPiece = this.pieceArray[0];
 
+    // console.log(currentPiece);
+
     // controllo sulla posizione verticale del blocco
     if (this.isAtEnd(currentPiece)) {
-      console.log("freeze del blocco");
+      // console.log("freeze del blocco");
       this.freeezePiece(currentPiece);
       this.createNewPiece();
       return;
@@ -141,6 +143,7 @@ class GameField {
   // metodo per aggiungere i comandi
   addCommand() {
     window.addEventListener('keyup', (ev) => {
+      
       if (ev.repeat) return;
       switch(ev.key) {
         case "a":
@@ -212,7 +215,7 @@ class GameField {
     this.addPiece(piece);
 
     // creazione di un nuovo elemento next
-    const newNextPiece = document.createElement('single-block-piece');
+    const newNextPiece = document.createElement('signle-block-piece');
     this.addNextPiece(newNextPiece);
   }
 
