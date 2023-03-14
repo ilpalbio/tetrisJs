@@ -3,7 +3,7 @@
 class GameField {
   static leftEnd = 1;
   static rightEnd = 2;
-  static maxPiece = 1;
+  static maxPiece = 2;
 
   constructor() {
     this.root = document.getElementById("field-container");
@@ -18,6 +18,8 @@ class GameField {
 
     // array contenente nel indice 0 il pezzo che sta scendendo e nell 1 il prossimo
     this.pieceArray = new Array(2);
+    
+    // impostazioni sul gioco
     this.fallSpeed = 25;
     this.movementRange = 25;
   }
@@ -26,11 +28,11 @@ class GameField {
   defineCustomBlocks() {
     // const customElements = new CustomElementRegistry();
 
-    customElements.define(
-      SingleBlock.name,
-      SingleBlock,
-      {extends: "div"}
-      );
+    // customElements.define(
+    //   SingleBlock.name,
+    //   SingleBlock,
+    //   {extends: "div"}
+    //   );
 
       customElements.define(
         LongPiece.name,
@@ -42,6 +44,12 @@ class GameField {
         SquarePiece.name,
         SquarePiece,
         {extends: "div"},
+      );
+
+      customElements.define(
+        TwoBlockPiece.name,
+        TwoBlockPiece,
+        {extends: "div"}
       );
   }
 
@@ -69,7 +77,7 @@ class GameField {
     // controllo sulla posizione verticale del blocco
     if (this.isAtEnd(currentPiece)) {
       // console.log("freeze del blocco");
-      this.freeezePiece(currentPiece);
+      // this.freeezePiece(currentPiece);
       this.createNewPiece();
       return;
     }
@@ -94,6 +102,10 @@ class GameField {
         break;
       case 1:
         return document.createElement(SquarePiece.name);
+        break;
+
+      case 2:
+        return document.createElement(LLeftPiece.name);
         break;
     }
   }
@@ -230,9 +242,9 @@ class GameField {
   }
 
   // metodo per frizzare il blocco
-  freeezePiece() {
+  // freeezePiece() {
 
-  }
+  // }
 
   // metodo per creare un nuovo blocco
   createNewPiece() {
@@ -257,12 +269,29 @@ class Piece extends HTMLElement {
   }
 }
 
-class SingleBlock extends Piece {
-  static name = 'single-block-piece';
+class TwoBlockPiece extends Piece {
+  static name = "two-block-piece";
   constructor() {
     super();
+
+    this.width = 2;
+  }
+
+  connectedCallback() {
+    if (this.isConnected) {
+      for (let i = 0; i < this.width; i++) {
+        this.appendChild(document.createElement("div"));
+      }
+    }
   }
 }
+
+// class SingleBlock extends Piece {
+//   static name = 'single-block-piece';
+//   constructor() {
+//     super();
+//   }
+// }
 
 class LongPiece extends Piece {
   static name = "long-piece";
@@ -303,6 +332,33 @@ class SquarePiece extends Piece {
           this.appendChild(document.createElement("div"));
         }
       }
+    }
+  }
+}
+
+class LLeftPiece extends Piece {
+  static name = "l-left-piece";
+  constructor() {
+    super();
+
+    this.height = 2;
+    this.color = (86, 86, 167);
+  }
+
+  connectedCallback() {
+    if (this.isConnected) {
+      const topPiece = document.createElement(TwoBlockPiece.name);
+      topPiece.style.backgroundColor = this.color;
+
+      this.appendChild(topPiece);
+
+      for (let i = 0; i < this.height; i++) {
+        const singlePiece = document.createElement("div");
+        singlePiece.style.backgroundColor = this.color;
+        
+        this.appendChild(singlePiece);
+      }
+
     }
   }
 }
